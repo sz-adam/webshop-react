@@ -1,11 +1,26 @@
-import "./App.css";
+import Home from "./pages/Home";
+import Details from "./pages/Details";
+import Cart from "./pages/Cart";
+import PageNotFound from "./pages/PageNotFound";
+import Content from "./components/Content";
+import Navbar from "./components/Navbar";
+import { BrowserRouter } from "react-router-dom";
+
+const pages = [
+  { name: "Home", path: "/", menubar: true, element: <Home /> },
+  { name: "Details", path: "/details", menubar: false, element: <Details /> },
+  { name: "Cart", path: "/cart", menubar: true, element: <Cart /> },
+  { name: "NotFound", path: "*", menubar: false, element: <PageNotFound /> },
+];
+
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline bg-orange-500">
-        Hello world!
-      </h1>
-    </>
+    <div className="w-full">
+      <BrowserRouter>
+        <Navbar menu={pages} />
+        <Content routes={pages} />
+      </BrowserRouter>
+    </div>
   );
 }
 
