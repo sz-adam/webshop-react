@@ -1,11 +1,12 @@
 import React, { useEffect, useReducer } from "react";
 import { Product } from "../types/product";
-import { initialState, reducer } from "../reducers/productReducer";
-import { fetchProducts } from "../services/productService";
+
 import Loading from "../components/Loading";
 import { FaHeart } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
+import { initialState, reducer } from "../reducers/productReducer";
+import { fetchProducts } from "../services/productService";
 
 const Home: React.FC = () => {
   // Használjuk a useReducer-t az állapot kezelésére
@@ -44,7 +45,7 @@ const Home: React.FC = () => {
             key={product.id}
             className="group my-10 flex w-full max-w-xs flex-col overflow-hidden border border-gray-100 bg-white shadow-md pb-5 m-5"
           >
-            <a className="relative flex h-60 overflow-hidden" href="#">
+            <div className="relative flex h-60 overflow-hidden" >
               <img
                 className="absolute top-0 right-0 h-full w-full object-cover"
                 src={product.image}
@@ -59,7 +60,7 @@ const Home: React.FC = () => {
                   <FaShoppingCart className="h-5 w-5" />
                 </button>
               </div>
-            </a>
+            </div>
             <div className="mt-4 flex flex-col px-5 flex-grow">
               <a href="#">
                 <h5 className="text-xl tracking-tight text-slate-900">
