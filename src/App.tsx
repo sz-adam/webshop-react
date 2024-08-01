@@ -9,7 +9,12 @@ import Favorites from "./pages/Favourites";
 
 const pages = [
   { name: "Home", path: "/", menubar: true, element: <Home /> },
-  { name: "Favorites", path: "/favorites", menubar: true, element: <Favorites /> },
+  {
+    name: "Favorites",
+    path: "/favorites",
+    menubar: true,
+    element: <Favorites />,
+  },
   { name: "Details", path: "/details", menubar: false, element: <Details /> },
   { name: "Cart", path: "/cart", menubar: true, element: <Cart /> },
   { name: "NotFound", path: "*", menubar: false, element: <PageNotFound /> },

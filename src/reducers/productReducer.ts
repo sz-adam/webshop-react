@@ -13,8 +13,7 @@ type Action =
   | { type: "FETCH_PRODUCTS_SUCCESS"; payload: Product[] }
   | { type: "FETCH_PRODUCTS_FAILURE"; payload: string };
 
-
-  //kezdő értékek
+//kezdő értékek
 export const initialState: State = {
   products: [],
   loading: false,
