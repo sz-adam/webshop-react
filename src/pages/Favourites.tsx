@@ -1,13 +1,17 @@
-import React from 'react';
+import React from "react";
+import { useFavorites } from "../context/FavouritesContext";
+import ProductCard from "../components/ProductCard";
 
-interface Props {
-  
-}
+const Favorites: React.FC = () => {
+  const { favorites } = useFavorites();
 
-const Favorites: React.FC<Props> = (props) => {
   return (
     <div>
-     Favorites
+      {favorites.length === 0 ? (
+        <p>No favorite products found.</p>
+      ) : (
+        <ProductCard products={favorites} />
+      )}
     </div>
   );
 };

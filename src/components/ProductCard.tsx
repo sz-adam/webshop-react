@@ -3,12 +3,22 @@ import { FaHeart } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { Product } from "../types/product";
+import { useFavorites } from "../context/FavouritesContext";
 
 interface Props {
   products: Product[];
 }
 
 const ProductCard: React.FC<Props> = ({ products }) => {
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+
+  const handleFavoriteClick = (product: Product) => {
+    if (isFavorite(product.id)) {
+      removeFavorite(product.id);
+    } else {
+      addFavorite(product);
+    }
+  };
   return (
     <>
       {products.map((product) => (
@@ -24,11 +34,14 @@ const ProductCard: React.FC<Props> = ({ products }) => {
             />
 
             <div className="absolute -right-16 top-1 mr-2 mb-4 space-y-2 transition-all duration-300 group-hover:right-0">
-              <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700">
+              <button
+                className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700"
+                onClick={() => handleFavoriteClick(product)}
+              >
                 <FaHeart className="h-5 w-5" />
               </button>
               <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700">
-                <FaShoppingCart className="h-5 w-5" />
+                <FaShoppingCart className="h-5 w-5 " />
               </button>
             </div>
           </div>

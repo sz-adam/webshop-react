@@ -6,6 +6,7 @@ import Content from "./components/Content";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import Favorites from "./pages/Favourites";
+import { FavoritesProvider } from "./context/FavouritesContext";
 
 const pages = [
   { name: "Home", path: "/", menubar: true, element: <Home /> },
@@ -22,12 +23,14 @@ const pages = [
 
 function App() {
   return (
-    <div className="w-full">
-      <BrowserRouter>
-        <Navbar menu={pages} />
-        <Content routes={pages} />
-      </BrowserRouter>
-    </div>
+    <FavoritesProvider>
+      <div className="w-full">
+        <BrowserRouter>
+          <Navbar menu={pages} />
+          <Content routes={pages} />
+        </BrowserRouter>
+      </div>
+    </FavoritesProvider>
   );
 }
 
