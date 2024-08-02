@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useFavorites } from "../context/FavouritesContext";
 
 interface MenuItem {
   name: string;
@@ -12,6 +13,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ menu }) => {
+  const { favorites } = useFavorites();
   return (
     <nav className="bg-gradient-to-t from-gray-600 to-slate-800 shadow-md">
       <div className="flex justify-between items-center p-4">
@@ -30,6 +32,9 @@ const Navbar: React.FC<NavbarProps> = ({ menu }) => {
                 className="text-white hover:text-yellow-400 transition duration-300 ease-in-out font-bold"
               >
                 {element.name}
+                {element.path === "/favorites" && favorites.length > 0 && (
+                  <> ({favorites.length})</>
+                )}
               </Link>
             ))}
         </div>
