@@ -38,7 +38,7 @@ const ProductCard: React.FC<Props> = ({ products }) => {
                 className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700"
                 onClick={() => handleFavoriteClick(product)}
               >
-                <FaHeart className="h-5 w-5" />
+               <FaHeart className={`h-5 w-5 ${isFavorite(product.id) ? 'text-red-500' : 'text-white'}`} />
               </button>
               <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700">
                 <FaShoppingCart className="h-5 w-5 " />
