@@ -19,7 +19,9 @@ const Navbar: React.FC<NavbarProps> = ({ menu }) => {
       <div className="flex justify-between items-center p-4">
         {/* Brand */}
         <div className="text-white text-2xl font-bold flicker">
-          <h1>Webshop</h1>
+          <Link to="/">
+            <h1>Webshop</h1>
+          </Link>
         </div>
         {/* Navigation Links */}
         <div className="flex space-x-6">
