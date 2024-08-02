@@ -8,7 +8,9 @@ const Favorites: React.FC = () => {
   return (
     <div>
       {favorites.length === 0 ? (
-        <p>No favorite products found.</p>
+       <div className="flex justify-center text-center">
+         <p className="font-bold text-4xl text-red-600 mt-10">No favorite products found.</p>
+       </div>
       ) : (
         <ProductCard products={favorites} />
       )}
