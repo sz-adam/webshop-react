@@ -4,6 +4,7 @@ import Loading from "../components/Loading";
 import { initialState, reducer } from "../reducers/productReducer";
 import { fetchProducts } from "../services/productService";
 import ProductCard from "../components/ProductCard";
+import Categories from "../components/Category";
 
 const Home: React.FC = () => {
   // Használjuk a useReducer-t az állapot kezelésére
@@ -35,8 +36,11 @@ const Home: React.FC = () => {
           <Loading />
         </div>
       )}
-      <div className="flex flex-wrap justify-center">
-        <ProductCard products={state.products} />
+      <div>
+        <Categories />
+        <div className="flex flex-wrap justify-center">
+          <ProductCard products={state.products} />
+        </div>
       </div>
     </div>
   );
