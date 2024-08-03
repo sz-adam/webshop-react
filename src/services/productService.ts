@@ -28,3 +28,13 @@ export async function fetchCategory(): Promise<Categories> {
   }
   return response.json();
 }
+//kategória szűrés
+export async function fetchCategoryItem(
+  categoryItem: string,
+): Promise<Product[]> {
+  const response = await fetch(`${API_URL}/category/${categoryItem}`);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+}
