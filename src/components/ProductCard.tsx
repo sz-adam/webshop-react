@@ -11,15 +11,8 @@ interface Props {
 }
 
 const ProductCard: React.FC<Props> = ({ products }) => {
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const { handleFavoriteClick, isFavorite } = useFavorites();
 
-  const handleFavoriteClick = (product: Product) => {
-    if (isFavorite(product.id)) {
-      removeFavorite(product.id);
-    } else {
-      addFavorite(product);
-    }
-  };
   return (
     <>
       {products.map((product) => (

@@ -3,9 +3,8 @@ import { Product } from "../types/product";
 
 interface FavoritesContextType {
   favorites: Product[];
-  addFavorite: (product: Product) => void;
-  removeFavorite: (productId: number) => void;
   isFavorite: (productId: number) => boolean;
+  handleFavoriteClick: (product: Product) => void;
 }
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(
@@ -15,6 +14,15 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(
 export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  //Kedvencek hozzáadása és eltávolítása
+  const handleFavoriteClick = (product: Product) => {
+    if (isFavorite(product.id)) {
+      removeFavorite(product.id);
+    } else {
+      addFavorite(product);
+    }
+  };
+
   // A kedvenc termékek listája
   const [favorites, setFavorites] = useState<Product[]>([]);
 
@@ -37,7 +45,11 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <FavoritesContext.Provider
-      value={{ favorites, addFavorite, removeFavorite, isFavorite }}
+      value={{
+        favorites,
+        isFavorite,
+        handleFavoriteClick,
+      }}
     >
       {children}
     </FavoritesContext.Provider>
