@@ -4,13 +4,15 @@ import { Product } from "../types/product";
 import Loading from "../components/Loading";
 import { initialState, reducer } from "../reducers/detailsReducer";
 import { fetchProductById } from "../services/productService";
-import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa6";
 import { FaCartArrowDown } from "react-icons/fa";
 import Star from "../components/Star";
+import { useFavorites } from "../context/FavouritesContext";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { handleFavoriteClick, isFavorite } = useFavorites();
 
   // Az adatok lekérésére szolgáló useEffect
   useEffect(() => {
@@ -73,25 +75,26 @@ const Details: React.FC = () => {
                 </div>
                 {/**button */}
                 <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                  <a
-                    href="#"
-                    title=""
-                    className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
-                    role="button"
+                  <button
+                    onClick={() => handleFavoriteClick(details)}
+                    className="flex w-full items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
                   >
-                    <CiHeart className="w-5 h-5 -ms-2 me-2" />
-                    Add to favorites
-                  </a>
+                    <FaHeart
+                      className={`w-5 h-5 -ms-2 me-2 ${
+                        isFavorite(details.id)
+                          ? "text-red-500"
+                          : "text-gray-200"
+                      }`}
+                    />
+                    {isFavorite(details.id)
+                      ? "Remove from favorites"
+                      : "Add to favorites"}
+                  </button>
 
-                  <a
-                    href="#"
-                    title=""
-                    className="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none flex items-center justify-center"
-                    role="button"
-                  >
+                  <button className="mt-4 w-full sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none flex items-center justify-center">
                     <FaCartArrowDown className="w-5 h-5 -ms-2 me-2" />
                     Add to cart
-                  </a>
+                  </button>
                 </div>
 
                 <hr className="my-6 md:my-8 border-gray-200 " />
