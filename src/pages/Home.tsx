@@ -1,21 +1,25 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { Product } from "../types/product";
 import Loading from "../components/Loading";
 import { initialState, reducer } from "../reducers/productReducer";
-import { fetchProducts } from "../services/productService";
+import { fetchCategoryItem, fetchProducts } from "../services/productService";
 import ProductCard from "../components/ProductCard";
 import Categories from "../components/Category";
 
 const Home: React.FC = () => {
   // Használjuk a useReducer-t az állapot kezelésére
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   // Az adatok lekérésére szolgáló useEffect
   useEffect(() => {
     const getProducts = async () => {
       dispatch({ type: "FETCH_PRODUCTS_REQUEST" });
       try {
-        const products: Product[] = await fetchProducts();
+        //teljes lista vagy az adott kategória betöltése
+        const products: Product[] = selectedCategory
+          ? await fetchCategoryItem(selectedCategory)
+          : await fetchProducts();
         dispatch({ type: "FETCH_PRODUCTS_SUCCESS", payload: products });
       } catch (error) {
         dispatch({
@@ -26,7 +30,12 @@ const Home: React.FC = () => {
     };
 
     getProducts();
-  }, []);
+  }, [selectedCategory]);
+
+  //kategoria vállasztás
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <div>
@@ -37,7 +46,7 @@ const Home: React.FC = () => {
         </div>
       )}
       <div>
-        <Categories />
+        <Categories onCategoryChange={handleCategoryChange} />
         <div className="flex flex-wrap justify-center">
           <ProductCard products={state.products} />
         </div>

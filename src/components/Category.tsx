@@ -3,7 +3,11 @@ import { initialState, reducer } from "../reducers/categoryReducer";
 import { Categories as CategoriesType } from "../types/category";
 import { fetchCategory } from "../services/productService";
 
-const Categories: React.FC = () => {
+interface CategoriesProps {
+  onCategoryChange: (category: string) => void;
+}
+
+const Categories: React.FC<CategoriesProps> = ({ onCategoryChange }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -29,7 +33,13 @@ const Categories: React.FC = () => {
       {state.error && <p>Error: {state.error}</p>}
       <div className="flex justify-center">
         {state.categories.map((category, index) => (
-          <button key={index} className="m-2 p-2 px-4 border rounded-3xl bg-gradient-to-t from-gray-600 to-slate-800 text-slate-200">{category}</button>
+          <button
+            key={index}
+            className="m-2 p-2 px-4 border rounded-3xl bg-gradient-to-t from-gray-600 to-slate-800 text-slate-200"
+            onClick={() => onCategoryChange(category)}
+          >
+            {category}
+          </button>
         ))}
       </div>
     </div>
