@@ -4,6 +4,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { Product } from "../types/product";
 import { useFavorites } from "../context/FavouritesContext";
+import { Link } from "react-router-dom";
 
 interface Props {
   products: Product[];
@@ -38,7 +39,11 @@ const ProductCard: React.FC<Props> = ({ products }) => {
                 className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700"
                 onClick={() => handleFavoriteClick(product)}
               >
-               <FaHeart className={`h-5 w-5 ${isFavorite(product.id) ? 'text-red-500' : 'text-white'}`} />
+                <FaHeart
+                  className={`h-5 w-5 ${
+                    isFavorite(product.id) ? "text-red-500" : "text-white"
+                  }`}
+                />
               </button>
               <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700">
                 <FaShoppingCart className="h-5 w-5 " />
@@ -58,12 +63,16 @@ const ProductCard: React.FC<Props> = ({ products }) => {
                 </span>
               </p>
             </div>
-            <div className="mt-auto flex items-center justify-center rounded-lg bg-gray-900 px-2 py-1 text-sm text-white transition hover:bg-gray-700 cursor cursor-pointer">
+
+            <Link
+              to={`/details/${product.id}`}
+              className="mt-auto flex items-center justify-center rounded-lg bg-gray-900 px-2 py-1 text-sm text-white transition hover:bg-gray-700 cursor cursor-pointer"
+            >
               <button className="flex p-2 font-semibold">
                 <FaEye className="mr-2 h-5 w-5" />
                 View
               </button>
-            </div>
+            </Link>
           </div>
         </div>
       ))}

@@ -10,3 +10,11 @@ export async function fetchProducts(): Promise<Product[]> {
   }
   return response.json();
 }
+//details endpoint
+export async function fetchProductById(id: number): Promise<Product> {
+  const response = await fetch(`${API_URL}/${id}`);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+}

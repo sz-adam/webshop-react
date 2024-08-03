@@ -16,7 +16,12 @@ const pages = [
     menubar: true,
     element: <Favorites />,
   },
-  { name: "Details", path: "/details", menubar: false, element: <Details /> },
+  {
+    name: "Details",
+    path: "/details/:id",
+    menubar: false,
+    element: <Details />,
+  },
   { name: "Cart", path: "/cart", menubar: true, element: <Cart /> },
   { name: "NotFound", path: "*", menubar: false, element: <PageNotFound /> },
 ];
