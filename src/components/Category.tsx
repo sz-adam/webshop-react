@@ -2,7 +2,6 @@ import React, { useEffect, useReducer } from "react";
 import { initialState, reducer } from "../reducers/categoryReducer";
 import { Categories as CategoriesType } from "../types/category";
 import { fetchCategory } from "../services/productService";
-import Loading from "./Loading";
 
 interface CategoriesProps {
   onCategoryChange: (category: string) => void;
@@ -16,9 +15,12 @@ const Categories: React.FC<CategoriesProps> = ({ onCategoryChange }) => {
       dispatch({ type: "FETCH_CATEGORIES_REQUEST" });
       try {
         const categories: CategoriesType = await fetchCategory();
-       
-        const updatedCategory=["All",...categories]
-        dispatch({ type: "FETCH_CATEGORIES_SUCCESS", payload: updatedCategory });
+
+        const updatedCategory = ["All", ...categories];
+        dispatch({
+          type: "FETCH_CATEGORIES_SUCCESS",
+          payload: updatedCategory,
+        });
       } catch (error) {
         dispatch({
           type: "FETCH_CATEGORIES_FAILURE",
@@ -31,9 +33,7 @@ const Categories: React.FC<CategoriesProps> = ({ onCategoryChange }) => {
   }, []);
 
   return (
-    <div >
-      {state.loading && <p>Loading...</p>}
-      {state.error && <p>Error: {state.error}</p>}
+    <div>
       <div className="flex flex-wrap justify-center">
         {state.categories.map((category, index) => (
           <button
