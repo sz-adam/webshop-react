@@ -35,7 +35,7 @@ const Categories: React.FC<CategoriesProps> = ({ onCategoryChange }) => {
         {state.categories.map((category, index) => (
           <button
             key={index}
-            className="m-2 p-2 px-4 border rounded-3xl bg-gradient-to-t from-gray-600 to-slate-800 text-slate-200"
+            className="m-2 p-2 px-4 border rounded-3xl bg-gradient-to-t from-gray-600 to-slate-800 text-slate-200 capitalize"
             onClick={() => onCategoryChange(category)}
           >
             {category}
