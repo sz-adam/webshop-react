@@ -4,9 +4,9 @@ import { Product } from "../types/product";
 import Loading from "../components/Loading";
 import { initialState, reducer } from "../reducers/detailsReducer";
 import { fetchProductById } from "../services/productService";
-import { FaStar } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaCartArrowDown } from "react-icons/fa";
+import Star from "../components/Star";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -64,24 +64,14 @@ const Details: React.FC = () => {
                   <div className="flex items-center gap-2 mt-2 sm:mt-0">
                     {/**rating */}
                     <div className="flex items-center gap-1">
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
+                      <Star
+                        rating={details.rating.rate}
+                        count={details.rating.count}
+                      />
                     </div>
-                    <p className="text-sm font-medium  text-gray-500 ">
-                      {details.rating.rate}
-                    </p>
-                    <a
-                      href="#"
-                      className="text-sm font-medium  text-gray-900 underline hover:no-underline "
-                    >
-                      {details.rating.count} Reviews
-                    </a>
                   </div>
                 </div>
-
+                {/**button */}
                 <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                   <a
                     href="#"
