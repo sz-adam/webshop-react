@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
@@ -8,11 +8,44 @@ import { LuMinusCircle } from "react-icons/lu";
 
 const Cart: React.FC = () => {
   const { cart, removeCart, minusQuantity, plusQuantity } = useCart();
+ 
+  const [promoCode, setPromoCode] = useState<string>("");
+  const [discount, setDiscount] = useState<number>(0);
+  const [error, setError] = useState<string>("");
+
+  const handlePromoCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPromoCode(e.target.value);
+  };
+
+  const applyPromoCode = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Ellenőrizzük, hogy a promóciós kód "DISCOUNT10"-e , Backend oldalon történik hivatalossan
+    if (promoCode === "DISCOUNT10") {
+      setDiscount(0.1); // 10% kedvezmény
+      setError("");
+    } else {
+      setError("Invalid promo code. Please try again.");
+      setDiscount(0);
+    }
+  };
+
+  // Összesen termék összege
+  const totalAmount = cart
+    .reduce((total, item) => total + (item.quantity ?? 1) * item.price, 0)
+    .toFixed(2);
+
+  //kedvezmény összege 2 tizedesjegyig
+  const discountAmount = (parseFloat(totalAmount) * discount).toFixed(2);
+  //eredeti összegből levonjuk a kedvezményes összeget
+  const discountedAmount = (
+    parseFloat(totalAmount) - parseFloat(discountAmount)
+  ).toFixed(2);
 
   return (
-    <section className="py-8 antialiased  md:py-16">
+    <section className="py-8 antialiased md:py-16">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        <h2 className="text-xl font-semibold text-gray-900  sm:text-2xl">
+        <p className="text-center font-semibold">Promotion code : "DISCOUNT10"</p>
+        <h2 className="text-xl font-semibold text-gray-900 sm:text-2xl">
           Shopping Cart
         </h2>
 
@@ -88,7 +121,7 @@ const Cart: React.FC = () => {
           </div>
 
           <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-            <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm  sm:p-6">
+            <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
               <p className="text-xl font-semibold text-gray-900 ">
                 Order summary
               </p>
@@ -100,34 +133,16 @@ const Cart: React.FC = () => {
                       Original price
                     </dt>
                     <dd className="text-base font-medium text-gray-900 ">
-                      $7,592.00
+                      {totalAmount} $
                     </dd>
                   </dl>
 
                   <dl className="flex items-center justify-between gap-4">
                     <dt className="text-base font-normal text-gray-500 ">
-                      Savings
-                    </dt>
-                    <dd className="text-base font-medium text-green-600">
-                      -$299.00
-                    </dd>
-                  </dl>
-
-                  <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 ">
-                      Store Pickup
+                      Discount
                     </dt>
                     <dd className="text-base font-medium text-gray-900 ">
-                      $99
-                    </dd>
-                  </dl>
-
-                  <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 ">
-                      Tax
-                    </dt>
-                    <dd className="text-base font-medium text-gray-900 ">
-                      $799
+                      {discountAmount} $
                     </dd>
                   </dl>
                 </div>
@@ -135,33 +150,33 @@ const Cart: React.FC = () => {
                 <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 ">
                   <dt className="text-base font-bold text-gray-900 ">Total</dt>
                   <dd className="text-base font-bold text-gray-900 ">
-                    $8,191.00
+                    {discountedAmount} $
                   </dd>
                 </dl>
               </div>
 
-              <a
-                href="#"
-                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 "
+              <Link
+                to="#"
+                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 "
               >
                 Proceed to Checkout
-              </a>
+              </Link>
 
               <div className="flex items-center justify-center gap-2">
                 <span className="text-sm font-normal text-gray-500 "> or </span>
-                <a
-                  href="#"
+                <Link
+                  to="/"
                   title=""
                   className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline "
                 >
                   Continue Shopping
                   <FaArrowRightLong className="h-5 w-5" />
-                </a>
+                </Link>
               </div>
             </div>
 
-            <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm  sm:p-6">
-              <form className="space-y-4">
+            <div className="space-y-4 rounded-lg border border-gray-200 p-4 shadow-sm sm:p-6">
+              <form onSubmit={applyPromoCode} className="space-y-4">
                 <div>
                   <label className="mb-2 block text-sm font-medium text-gray-900 ">
                     {" "}
@@ -170,6 +185,8 @@ const Cart: React.FC = () => {
                   <input
                     type="text"
                     id="voucher"
+                    value={promoCode}
+                    onChange={handlePromoCodeChange}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 "
                     placeholder=""
                     required
@@ -177,10 +194,15 @@ const Cart: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 "
+                  className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 "
                 >
                   Apply Code
                 </button>
+                {error && (
+                  <p className="text-red-600 text-sm mt-2 text-center">
+                    {error}
+                  </p>
+                )}
               </form>
             </div>
           </div>
