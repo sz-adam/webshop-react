@@ -7,7 +7,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { LuMinusCircle } from "react-icons/lu";
 
 const Cart: React.FC = () => {
-  const { cart,removeCart } = useCart();
+  const { cart, removeCart, minusQuantity, plusQuantity } = useCart();
 
   return (
     <section className="py-8 antialiased  md:py-16">
@@ -22,7 +22,10 @@ const Cart: React.FC = () => {
               <div key={product.id} className="space-y-6">
                 <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
                   <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                    <Link to="/" className="shrink-0 md:order-1">
+                    <Link
+                      to={`/details/${product.id}`}
+                      className="shrink-0 md:order-1"
+                    >
                       <img
                         className="h-20 w-20 dark:hidden"
                         src={product.image}
@@ -33,31 +36,39 @@ const Cart: React.FC = () => {
                     <label className="sr-only">Choose quantity:</label>
                     <div className="flex items-center justify-between md:order-3 md:justify-end">
                       <div className="flex items-center">
-                        <button type="button">
+                        <button
+                          type="button"
+                          disabled={product.quantity === 1}
+                          onClick={() => minusQuantity(product)}
+                        >
                           <LuMinusCircle className="h-5 w-5 text-gray-900 " />
                         </button>
                         <span className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 ">
                           {" "}
                           {product.quantity}
                         </span>
-                        <button type="button">
+                        <button
+                          type="button"
+                          onClick={() => plusQuantity(product)}
+                        >
                           <BsPlusCircle className="h-5 w-5 text-gray-900 " />
                         </button>
                       </div>
                       <div className="text-end md:order-4 md:w-32">
                         <p className="text-base font-bold text-gray-900 ">
-                          {product.price}
+                          $
+                          {(product.price * (product.quantity || 1)).toFixed(2)}
                         </p>
                       </div>
                     </div>
 
                     <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                      <a
-                        href="#"
+                      <Link
+                        to={`/details/${product.id}`}
                         className="text-base font-medium text-gray-900 hover:underline "
                       >
                         {product.title}
-                      </a>
+                      </Link>
 
                       <div className="flex items-center gap-4">
                         <button

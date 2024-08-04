@@ -4,6 +4,8 @@ interface CartContextType {
   cart: Product[];
   addCart: (cart: Product) => void;
   removeCart: (cart: Product) => void;
+  plusQuantity: (cart: Product) => void;
+  minusQuantity:(cart: Product) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -40,8 +42,38 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     setCart(updatedCart);
   };
 
+  //mennyiség növelése
+  const plusQuantity =(product:Product) =>{
+    const plus = cart.map(item => {
+      // Ellenőrizzük, hogy a jelenlegi item azonos az új termékkel
+      if (item.id === product.id) {
+        return {
+        ...item,// Másoljuk a meglévő item összes tulajdonságát
+          quantity: (item.quantity || 1) + 1, //növeljük a mennyiséget
+        };
+      }
+      return item;
+    });
+    setCart(plus);
+  }
+
+//mennyiség csökkentése
+  const minusQuantity =(product:Product) =>{
+    const minus = cart.map(item => {
+      // Ellenőrizzük, hogy a jelenlegi item azonos az új termékkel
+      if (item.id === product.id) {
+        return {
+        ...item,// Másoljuk a meglévő item összes tulajdonságát
+          quantity: (item.quantity || 1) - 1, //csöökentjük a mennyiséget
+        };
+      }
+      return item;
+    });
+    setCart(minus);
+  }
+
   return (
-    <CartContext.Provider value={{ cart, addCart, removeCart }}>
+    <CartContext.Provider value={{ cart, addCart, removeCart,plusQuantity,minusQuantity }}>
       {children}
     </CartContext.Provider>
   );
