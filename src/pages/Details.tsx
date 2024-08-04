@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Product } from "../types/product";
 import Loading from "../components/Loading";
 import { initialState, reducer } from "../reducers/detailsReducer";
@@ -9,6 +9,7 @@ import { FaCartArrowDown } from "react-icons/fa";
 import Star from "../components/Star";
 import { useFavorites } from "../context/FavouritesContext";
 import { useCart } from "../context/CartContext";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -47,6 +48,12 @@ const Details: React.FC = () => {
       {details && (
         <section className="py-8 md:py-16 ">
           <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+            <div className="relative top-0 left-1">
+              {" "}
+              <Link to="/">
+                <FaArrowLeft  className="w-7 h-7 hover:text-slate-500" />
+              </Link>
+            </div>
             <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
               <div className="max-w-md lg:max-w-lg mx-auto">
                 <img
