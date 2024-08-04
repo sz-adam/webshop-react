@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import Favorites from "./pages/Favourites";
 import { FavoritesProvider } from "./context/FavouritesContext";
+import { CartProvider } from "./context/CartContext";
 
 const pages = [
   { name: "Home", path: "/", menubar: true, element: <Home /> },
@@ -28,14 +29,16 @@ const pages = [
 
 function App() {
   return (
-    <FavoritesProvider>
-      <div className="w-full">
-        <BrowserRouter>
-          <Navbar menu={pages} />
-          <Content routes={pages} />
-        </BrowserRouter>
-      </div>
-    </FavoritesProvider>
+    <CartProvider>
+      <FavoritesProvider>
+        <div className="w-full">
+          <BrowserRouter>
+            <Navbar menu={pages} />
+            <Content routes={pages} />
+          </BrowserRouter>
+        </div>
+      </FavoritesProvider>
+    </CartProvider>
   );
 }
 

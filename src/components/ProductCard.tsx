@@ -5,6 +5,7 @@ import { FaEye } from "react-icons/fa";
 import { Product } from "../types/product";
 import { useFavorites } from "../context/FavouritesContext";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 interface Props {
   products: Product[];
@@ -12,6 +13,7 @@ interface Props {
 
 const ProductCard: React.FC<Props> = ({ products }) => {
   const { handleFavoriteClick, isFavorite } = useFavorites();
+  const { addCart } = useCart();
 
   return (
     <>
@@ -38,7 +40,9 @@ const ProductCard: React.FC<Props> = ({ products }) => {
                   }`}
                 />
               </button>
-              <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700">
+              <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700"
+              onClick={() =>addCart(product)}
+              >
                 <FaShoppingCart className="h-5 w-5 " />
               </button>
             </div>
