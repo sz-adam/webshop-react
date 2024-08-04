@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { Product } from "../types/product";
 interface CartContextType {
   cart: Product[];
-  addCart:(cart: Product) =>void
+  addCart: (cart: Product) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -10,16 +10,34 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [cart,setCart] =useState<Product[]>([])
-  console.log(cart)
+  const [cart, setCart] = useState<Product[]>([]);
 
- // Termék hozzáadása
- const addCart = (product: Product) => {
-  setCart((prevCart) => [...prevCart, product]);
-};
-  return <CartContext.Provider value={{cart,addCart}}>{children}</CartContext.Provider>;
-};
+  //termék hozzáadása
+  const addCart = (product: Product) => {
+    // Keresd meg a terméket a kosárban
+    const existingProduct = cart.find((item) => item.id === product.id);
+    if (existingProduct) {
+      // Ha a termék már létezik a kosárban, frissítsd a mennyiséget
+      const updatedCart = cart.map((item) => {
+        if (item.id === product.id) {
+          // Ha az item létezik, frissítsd a quantity-t, vagy állítsd be 1-re, ha nem létezik
+          return { ...item, quantity: (item.quantity || 1) + 1 };
+        }
+        return item;
+      });
 
+      setCart(updatedCart);
+    } else {
+      // Ha a termék nem létezik, add hozzá a kosárhoz quantity = 1
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+  };
+  return (
+    <CartContext.Provider value={{ cart, addCart }}>
+      {children}
+    </CartContext.Provider>
+  );
+};
 
 // Ellenőrzi, hogy a contextus nem undefined-e
 export const useCart = (): CartContextType => {
