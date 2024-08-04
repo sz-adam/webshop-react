@@ -40,8 +40,9 @@ const ProductCard: React.FC<Props> = ({ products }) => {
                   }`}
                 />
               </button>
-              <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700"
-              onClick={() =>addCart(product)}
+              <button
+                className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700"
+                onClick={() => addCart(product)}
               >
                 <FaShoppingCart className="h-5 w-5 " />
               </button>
