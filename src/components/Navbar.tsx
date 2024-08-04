@@ -20,13 +20,13 @@ const Navbar: React.FC<NavbarProps> = ({ menu }) => {
     <nav className="bg-gradient-to-t from-gray-600 to-slate-800 shadow-md">
       <div className="flex justify-between items-center p-4">
         {/* Brand */}
-        <div className="text-white text-2xl font-bold flicker">
+        <div className="text-white text-xl font-bold flicker md:text-2xl">
           <Link to="/">
             <h1>Webshop</h1>
           </Link>
         </div>
         {/* Navigation Links */}
-        <div className="flex space-x-6">
+        <div className="flex space-x-3 md:space-x-6">
           {menu
             .filter((e) => e.menubar)
             .map((element) => (
