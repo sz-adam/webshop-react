@@ -4,7 +4,7 @@ import Cart from "./pages/Cart";
 import PageNotFound from "./pages/PageNotFound";
 import Content from "./components/Content";
 import Navbar from "./components/Navbar";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import Favorites from "./pages/Favourites";
 import { FavoritesProvider } from "./context/FavouritesContext";
 import { CartProvider } from "./context/CartContext";
@@ -32,10 +32,10 @@ function App() {
     <CartProvider>
       <FavoritesProvider>
         <div className="w-full">
-          <BrowserRouter>
+          <HashRouter>
             <Navbar menu={pages} />
             <Content routes={pages} />
-          </BrowserRouter>
+          </HashRouter>
         </div>
       </FavoritesProvider>
     </CartProvider>
