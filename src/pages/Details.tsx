@@ -8,11 +8,14 @@ import { FaHeart } from "react-icons/fa6";
 import { FaCartArrowDown } from "react-icons/fa";
 import Star from "../components/Star";
 import { useFavorites } from "../context/FavouritesContext";
+import { useCart } from "../context/CartContext";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { handleFavoriteClick, isFavorite } = useFavorites();
+  const { addCart } = useCart();
+
 
   // Az adatok lekérésére szolgáló useEffect
   useEffect(() => {
@@ -91,7 +94,9 @@ const Details: React.FC = () => {
                       : "Add to favorites"}
                   </button>
 
-                  <button className="mt-4 w-full sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none flex items-center justify-center">
+                  <button className="mt-4 w-full sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none flex items-center justify-center"
+                   onClick={() => addCart(details)}
+                  >
                     <FaCartArrowDown className="w-5 h-5 -ms-2 me-2" />
                     Add to cart
                   </button>
