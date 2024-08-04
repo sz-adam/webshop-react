@@ -29,16 +29,16 @@ const pages = [
 
 function App() {
   return (
-    <CartProvider>
-      <FavoritesProvider>
-        <div className="w-full">
-          <HashRouter>
+    <HashRouter>
+      <CartProvider>
+        <FavoritesProvider>
+          <div className="w-full">
             <Navbar menu={pages} />
             <Content routes={pages} />
-          </HashRouter>
-        </div>
-      </FavoritesProvider>
-    </CartProvider>
+          </div>
+        </FavoritesProvider>
+      </CartProvider>
+    </HashRouter>
   );
 }
 
