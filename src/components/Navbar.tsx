@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useFavorites } from "../context/FavouritesContext";
+import { useCart } from "../context/CartContext";
 
 interface MenuItem {
   name: string;
@@ -14,6 +15,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ menu }) => {
   const { favorites } = useFavorites();
+  const { cart } = useCart();
   return (
     <nav className="bg-gradient-to-t from-gray-600 to-slate-800 shadow-md">
       <div className="flex justify-between items-center p-4">
@@ -36,6 +38,9 @@ const Navbar: React.FC<NavbarProps> = ({ menu }) => {
                 {element.name}
                 {element.path === "/favorites" && favorites.length > 0 && (
                   <> ({favorites.length})</>
+                )}
+                {element.path === "/cart" && cart.length > 0 && (
+                  <> ({cart.length})</>
                 )}
               </Link>
             ))}
