@@ -7,7 +7,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { LuMinusCircle } from "react-icons/lu";
 
 const Cart: React.FC = () => {
-  const { cart } = useCart();
+  const { cart,removeCart } = useCart();
 
   return (
     <section className="py-8 antialiased  md:py-16">
@@ -63,6 +63,7 @@ const Cart: React.FC = () => {
                         <button
                           type="button"
                           className="inline-flex items-center text-sm font-medium text-red-600 hover:underline"
+                          onClick={() => removeCart(product)}
                         >
                           <IoMdClose className="me-1.5 h-5 w-5" />
                           Remove

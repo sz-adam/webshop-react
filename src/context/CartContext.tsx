@@ -3,6 +3,7 @@ import { Product } from "../types/product";
 interface CartContextType {
   cart: Product[];
   addCart: (cart: Product) => void;
+  removeCart: (cart: Product) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -32,8 +33,15 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
       setCart([...cart, { ...product, quantity: 1 }]);
     }
   };
+
+  //termék törlése
+  const removeCart = (product: Product) => {
+    const updatedCart = cart.filter((item) => item.id !== product.id);
+    setCart(updatedCart);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addCart }}>
+    <CartContext.Provider value={{ cart, addCart, removeCart }}>
       {children}
     </CartContext.Provider>
   );
